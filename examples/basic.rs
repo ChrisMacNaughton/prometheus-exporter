@@ -11,6 +11,7 @@ fn main() {
     //      ).bind(9010);
     let mut metrics = PrometheusMetrics::new();
     metrics.add_metric("cpu_usage", || Value::Float(cpu_usage()));
+    metrics.add_default_metrics();
     Prometheus::new(
         metrics
     ).bind(9010);

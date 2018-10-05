@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use psutils;
 
 use Metric;
 use Value;
@@ -23,6 +24,12 @@ impl PrometheusMetrics {
     pub fn new() -> PrometheusMetrics {
         PrometheusMetrics { data: vec![] }
     }
+
+    pub fn add_default_metrics(&mut self) {
+        self.add_metric("open_tcp_connections", open_tcp_connections);
+        self.add_metric("open_udp_connections", open_udp_connections);
+    }
+
     pub fn add_metric<T: Into<String>, F: 'static>(&mut self, name: T, callback: F) where
     F: Fn() -> Value {
         self.data.push(BasicMetric {
@@ -82,4 +89,16 @@ impl Metrics for PrometheusMetrics {
     fn metrics(&self) -> Vec<Metric> {
         self.data.iter().map(|a| a.into()).collect()
     }
+}
+
+fn open_tcp_connections() -> Value {
+    Value::Integer(
+        psutils::Connections::retrieve(&psutils::ConnType::Tcp, None).len() as i64
+    )
+}
+
+fn open_udp_connections() -> Value {
+    Value::Integer(
+        psutils::Connections::retrieve(&psutils::ConnType::Udp, None).len() as i64
+    )
 }
