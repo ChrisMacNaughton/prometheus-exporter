@@ -5,6 +5,8 @@ authors = ["Chris MacNaughton <chris@centaurisolutions.nl>"]
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+indexmap = "*"
+
+[dev-dependencies]
 futures = "0.1.14"
 hyper = "0.11.2"
-indexmap = "0.4.1"
