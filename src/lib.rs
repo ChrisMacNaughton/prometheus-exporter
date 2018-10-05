@@ -1,6 +1,7 @@
 extern crate hyper;
 extern crate futures;
 extern crate indexmap;
+extern crate psutils;
 
 mod exporter;
 mod metric;
